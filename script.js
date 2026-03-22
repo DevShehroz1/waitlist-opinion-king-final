@@ -10,8 +10,8 @@ addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>50),{passi
 // Mobile
 document.getElementById('mobMenu')?.addEventListener('click',function(){this.classList.toggle('active')});
 
-// Smooth scroll
-document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',e=>{const el=document.querySelector(a.getAttribute('href'));if(!el)return;e.preventDefault();scrollTo({top:el.getBoundingClientRect().top+scrollY-nav.offsetHeight-20,behavior:'smooth'})})});
+// Smooth scroll (disable snap during programmatic scroll)
+document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',e=>{const el=document.querySelector(a.getAttribute('href'));if(!el)return;e.preventDefault();document.documentElement.style.scrollSnapType='none';scrollTo({top:el.getBoundingClientRect().top+scrollY-nav.offsetHeight-20,behavior:'smooth'});setTimeout(()=>{document.documentElement.style.scrollSnapType='y mandatory'},1200)})});
 
 // Reveal
 const ro=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('revealed');ro.unobserve(x.target)}}),{threshold:.1,rootMargin:'0px 0px -50px 0px'});
