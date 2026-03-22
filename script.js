@@ -43,7 +43,6 @@ document.getElementById('mobMenu')?.addEventListener('click',function(){this.cla
 
   // Wheel handler — debounced to treat trackpad inertia as ONE gesture
   function onWheel(e){
-    if(isMobile())return;
     e.preventDefault();
     e.stopPropagation();
 
@@ -86,7 +85,6 @@ document.getElementById('mobMenu')?.addEventListener('click',function(){this.cla
 
   // Keyboard arrows / page up/down
   function onKey(e){
-    if(isMobile())return;
     if(isScrolling)return;
 
     if(e.key==='ArrowDown'||e.key==='PageDown'||e.key===' '){
@@ -98,16 +96,31 @@ document.getElementById('mobMenu')?.addEventListener('click',function(){this.cla
     }
   }
 
-  // Touch support (swipe)
-  let touchStart=0;
+  // Touch support — block native scroll, swipe one section at a time
+  let touchStartY=0;
+  let touchStartTime=0;
+  let touchMoved=false;
+
   function onTouchStart(e){
-    if(isMobile())return;
-    touchStart=e.touches[0].clientY;
+    touchStartY=e.touches[0].clientY;
+    touchStartTime=Date.now();
+    touchMoved=false;
   }
+
+  function onTouchMove(e){
+    // Block native scroll so it doesn't fight with our section snapping
+    if(!isScrolling){
+      e.preventDefault();
+      touchMoved=true;
+    }
+  }
+
   function onTouchEnd(e){
-    if(isMobile()||isScrolling)return;
-    const diff=touchStart-e.changedTouches[0].clientY;
-    if(Math.abs(diff)>50){
+    if(isScrolling||!touchMoved)return;
+    const diff=touchStartY-e.changedTouches[0].clientY;
+    const elapsed=Date.now()-touchStartTime;
+    // Require min 30px swipe within 600ms
+    if(Math.abs(diff)>30&&elapsed<600){
       if(diff>0)goTo(current+1);
       else goTo(current-1);
     }
@@ -117,9 +130,10 @@ document.getElementById('mobMenu')?.addEventListener('click',function(){this.cla
   window.addEventListener('wheel',onWheel,{passive:false});
   window.addEventListener('keydown',onKey);
   window.addEventListener('touchstart',onTouchStart,{passive:true});
+  window.addEventListener('touchmove',onTouchMove,{passive:false});
   window.addEventListener('touchend',onTouchEnd,{passive:true});
 
-  // Sync on manual scroll (resize, etc.)
+  // Sync current on resize
   window.addEventListener('scroll',()=>{if(!isScrolling)findCurrent()},{passive:true});
 
   // Nav link clicks — go to specific section
