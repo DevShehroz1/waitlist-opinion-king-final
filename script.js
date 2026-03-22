@@ -15,7 +15,10 @@ document.getElementById('mobMenu')?.addEventListener('click',function(){this.cla
 
   let current=0;
   let isScrolling=false;
-  const cooldown=900; // ms lock between scrolls
+  let lastWheelTime=0;
+  let wheelAccum=0;
+  let wheelTimer=null;
+  const cooldown=1100;
   const isMobile=()=>window.innerWidth<=768;
 
   function goTo(index){
@@ -28,10 +31,9 @@ document.getElementById('mobMenu')?.addEventListener('click',function(){this.cla
 
     window.scrollTo({top:offset,behavior:'smooth'});
 
-    setTimeout(()=>{isScrolling=false},cooldown);
+    setTimeout(()=>{isScrolling=false;wheelAccum=0},cooldown);
   }
 
-  // Determine which section is currently in view
   function findCurrent(){
     const mid=window.scrollY+window.innerHeight/3;
     for(let i=sections.length-1;i>=0;i--){
@@ -39,17 +41,46 @@ document.getElementById('mobMenu')?.addEventListener('click',function(){this.cla
     }
   }
 
-  // Wheel handler — one section per scroll
+  // Wheel handler — debounced to treat trackpad inertia as ONE gesture
   function onWheel(e){
-    if(isMobile())return; // let mobile scroll normally
+    if(isMobile())return;
     e.preventDefault();
+    e.stopPropagation();
 
     if(isScrolling)return;
 
-    if(e.deltaY>0){
-      goTo(current+1); // scroll down
+    const now=Date.now();
+
+    // Reset accumulator if gap between events is large (new gesture)
+    if(now-lastWheelTime>200){
+      wheelAccum=0;
+    }
+    lastWheelTime=now;
+
+    // Accumulate delta but don't act yet — wait for gesture to settle
+    wheelAccum+=e.deltaY;
+
+    // Clear previous timer
+    if(wheelTimer)clearTimeout(wheelTimer);
+
+    // Fire after 50ms of no new wheel events (gesture ended)
+    // OR if accumulated delta is strong enough (>30), fire immediately once
+    const threshold=30;
+    if(Math.abs(wheelAccum)>threshold){
+      // Immediately trigger, then lock
+      const dir=wheelAccum>0?1:-1;
+      wheelAccum=0;
+      if(wheelTimer)clearTimeout(wheelTimer);
+      goTo(current+dir);
     }else{
-      goTo(current-1); // scroll up
+      // Small delta — wait to see if more comes
+      wheelTimer=setTimeout(()=>{
+        if(Math.abs(wheelAccum)>5){
+          const dir=wheelAccum>0?1:-1;
+          goTo(current+dir);
+        }
+        wheelAccum=0;
+      },80);
     }
   }
 
