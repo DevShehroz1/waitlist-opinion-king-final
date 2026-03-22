@@ -29,6 +29,10 @@ document.querySelectorAll('.sl,.st,.ss,.compliance,.cta-inner,.mgrid-note').forE
 const bo=new IntersectionObserver(e=>e.forEach(x=>{if(!x.isIntersecting)return;const w=x.target.style.width;x.target.style.width='0%';setTimeout(()=>x.target.style.width=w,200);bo.unobserve(x.target)}),{threshold:.2});
 document.querySelectorAll('.mc-fill').forEach(el=>bo.observe(el));
 
+// Scroll-triggered content animations
+const so=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in-view');so.unobserve(x.target)}}),{threshold:.1,rootMargin:'0px 0px -80px 0px'});
+document.querySelectorAll('.scroll-fade,.scroll-scale,.scroll-slide-l,.scroll-slide-r').forEach(el=>so.observe(el));
+
 // Parallax
 (function(){const g1=document.querySelector('.g1'),g2=document.querySelector('.g2'),h=document.querySelector('.hero');if(!h)return;addEventListener('scroll',()=>{const y=scrollY;if(y>h.offsetHeight+200)return;if(g1)g1.style.transform='translateY('+y*.1+'px)';if(g2)g2.style.transform='translateY('+y*.06+'px)';},{passive:true})})();
 
