@@ -111,7 +111,12 @@
 
   <!-- LEADERBOARD -->
   <section class="board" id="board">
-    <div class="wrap">
+    <!-- Dark background image overlay -->
+    <div class="board-bg">
+      <img src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=1400&q=80&auto=format" alt="" class="board-bg-img">
+      <div class="board-bg-overlay"></div>
+    </div>
+    <div class="wrap board-content">
       <div class="board-top">
         <h2 class="board-heading"><em>JOIN 15,243 TRADERS<br>READY TO <span class="accent">RULE.</span></em></h2>
         <div class="board-live">
@@ -119,39 +124,42 @@
           <div class="bl-badge">👥 342 New Users Today</div>
         </div>
       </div>
-      <div class="lb-table">
-        <div class="lb-header">
-          <span>RANK</span><span>MONIKER</span><span class="lb-right">KINGS (POINTS)</span>
+      <div class="lb-wrap">
+        <div class="lb-table">
+          <div class="lb-header">
+            <span>RANK</span><span>MONIKER</span><span class="lb-right">KINGS (POINTS)</span>
+          </div>
+          <div class="lb-row lb-gold">
+            <span class="lb-rank">01</span>
+            <div class="lb-user"><span class="lb-av lb-av-gold">👑</span><strong>King David</strong></div>
+            <span class="lb-pts">14,280</span>
+          </div>
+          <div class="lb-row">
+            <span class="lb-rank">02</span>
+            <div class="lb-user"><span class="lb-av">QS</span><strong>Queen Sarah</strong></div>
+            <span class="lb-pts">12,110</span>
+          </div>
+          <!-- Hidden/blurred rows -->
+          <div class="lb-row lb-blurred">
+            <span class="lb-rank">03</span>
+            <div class="lb-user"><span class="lb-av">MK</span><strong>MarketKing</strong></div>
+            <span class="lb-pts">9,840</span>
+          </div>
+          <div class="lb-row lb-blurred">
+            <span class="lb-rank">04</span>
+            <div class="lb-user"><span class="lb-av">CP</span><strong>CryptoProphet</strong></div>
+            <span class="lb-pts">8,220</span>
+          </div>
+          <div class="lb-row lb-blurred">
+            <span class="lb-rank">05</span>
+            <div class="lb-user"><span class="lb-av">AB</span><strong>AlphaBets</strong></div>
+            <span class="lb-pts">7,650</span>
+          </div>
         </div>
-        <div class="lb-row lb-gold">
-          <span class="lb-rank">01</span>
-          <div class="lb-user"><span class="lb-av lb-av-gold">👑</span><strong>King David</strong></div>
-          <span class="lb-pts">14,280</span>
+        <!-- Blur overlay + CTA -->
+        <div class="lb-fade">
+          <a href="#hero" class="btn-gold">YOUR SPOT WAITS HERE</a>
         </div>
-        <div class="lb-row">
-          <span class="lb-rank">02</span>
-          <div class="lb-user"><span class="lb-av">QS</span><strong>Queen Sarah</strong></div>
-          <span class="lb-pts">12,110</span>
-        </div>
-        <div class="lb-row">
-          <span class="lb-rank">03</span>
-          <div class="lb-user"><span class="lb-av">MK</span><strong>MarketKing</strong></div>
-          <span class="lb-pts">9,840</span>
-        </div>
-        <div class="lb-row">
-          <span class="lb-rank">04</span>
-          <div class="lb-user"><span class="lb-av">CP</span><strong>CryptoProphet</strong></div>
-          <span class="lb-pts">8,220</span>
-        </div>
-        <div class="lb-row">
-          <span class="lb-rank">05</span>
-          <div class="lb-user"><span class="lb-av">AB</span><strong>AlphaBets</strong></div>
-          <span class="lb-pts">7,650</span>
-        </div>
-      </div>
-      <div class="lb-cta">
-        <div class="lb-blur"></div>
-        <a href="#hero" class="btn-gold">YOUR SPOT WAITS HERE</a>
       </div>
     </div>
   </section>
