@@ -404,87 +404,70 @@
   /* ======================== SCROLL-LINKED VIDEO ======================== */
   function initScrollVideo() {
     const section = document.getElementById('showcase');
-    const video1 = document.getElementById('svVideo');
-    const video2 = document.querySelector('.sv-video-2');
-    const panel1 = document.querySelector('.sv-panel--1');
-    const panel2 = document.querySelector('.sv-panel--2');
+    const vid = document.getElementById('svVid');
+    const txt1 = document.getElementById('svTxt1');
+    const txt2 = document.getElementById('svTxt2');
 
-    if (!section || !video1 || !panel1 || !panel2) return;
+    if (!section || !vid) return;
 
-    // Preload videos
-    video1.load();
-    if (video2) video2.load();
+    vid.load();
+    let dur = 0;
+    vid.addEventListener('loadedmetadata', () => { dur = vid.duration; });
 
-    // Wait for video metadata
-    let videoDuration = 0;
-    video1.addEventListener('loadedmetadata', () => {
-      videoDuration = video1.duration;
-    });
-
-    let video2Duration = 0;
-    if (video2) {
-      video2.addEventListener('loadedmetadata', () => {
-        video2Duration = video2.duration;
-      });
-    }
-
-    function updateScrollVideo() {
+    function update() {
       const rect = section.getBoundingClientRect();
-      const sectionHeight = section.offsetHeight;
-      const viewH = window.innerHeight;
+      const totalScroll = section.offsetHeight - window.innerHeight;
+      const progress = Math.max(0, Math.min(1, -rect.top / totalScroll));
 
-      // Progress: 0 when section top hits viewport bottom, 1 when section bottom leaves viewport top
-      const scrolled = -rect.top;
-      const totalScroll = sectionHeight - viewH;
-      const progress = Math.max(0, Math.min(1, scrolled / totalScroll));
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const vidW = vid.offsetWidth;
+      const vidH = vid.offsetHeight;
 
-      // Panel 1: visible 0% - 45%, Panel 2: visible 55% - 100%
-      // Crossfade zone: 45% - 55%
-      if (progress < 0.45) {
-        panel1.classList.add('active');
-        panel2.classList.remove('active');
-      } else if (progress > 0.55) {
-        panel1.classList.remove('active');
-        panel2.classList.add('active');
-      } else {
-        // Crossfade zone
-        const fade = (progress - 0.45) / 0.1;
-        panel1.style.opacity = 1 - fade;
-        panel2.style.opacity = fade;
-        panel1.classList.add('active');
-        panel2.classList.add('active');
-      }
+      // Video X position: starts at right side (vw - vidW - 60px), ends at left side (60px)
+      const pad = Math.min(60, vw * 0.05);
+      const startX = vw - vidW - pad;
+      const endX = pad;
+      const x = startX + (endX - startX) * progress;
 
-      // Scrub video 1 based on first half of scroll (0-50%)
-      if (videoDuration > 0) {
-        const vid1Progress = Math.min(1, progress / 0.5);
-        const targetTime1 = vid1Progress * videoDuration;
-        if (Math.abs(video1.currentTime - targetTime1) > 0.05) {
-          video1.currentTime = targetTime1;
+      // Video Y position: stays vertically centered
+      const y = (vh - vidH) / 2;
+
+      // Apply position
+      vid.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+
+      // Scrub video playback
+      if (dur > 0) {
+        const targetTime = progress * dur;
+        if (Math.abs(vid.currentTime - targetTime) > 0.03) {
+          vid.currentTime = targetTime;
         }
       }
 
-      // Scrub video 2 based on second half of scroll (50%-100%)
-      if (video2 && video2Duration > 0) {
-        const vid2Progress = Math.max(0, Math.min(1, (progress - 0.5) / 0.5));
-        const targetTime2 = vid2Progress * video2Duration;
-        if (Math.abs(video2.currentTime - targetTime2) > 0.05) {
-          video2.currentTime = targetTime2;
-        }
+      // Text 1 (left side): visible when video is on right (progress 0-0.35)
+      // Fades out as video moves to center
+      if (txt1) {
+        const t1opacity = progress < 0.25 ? 1 : progress < 0.45 ? 1 - (progress - 0.25) / 0.2 : 0;
+        const t1y = progress < 0.25 ? 0 : (progress - 0.25) * 80;
+        txt1.style.opacity = t1opacity;
+        txt1.style.transform = `translateY(calc(-50% + ${t1y}px))`;
       }
 
-      // Reset opacity styles when fully in one panel
-      if (progress < 0.44 || progress > 0.56) {
-        panel1.style.opacity = '';
-        panel2.style.opacity = '';
+      // Text 2 (right side): visible when video is on left (progress 0.55-1)
+      // Fades in as video arrives at left
+      if (txt2) {
+        const t2opacity = progress < 0.55 ? 0 : progress < 0.75 ? (progress - 0.55) / 0.2 : 1;
+        const t2y = progress < 0.55 ? 40 : progress < 0.75 ? 40 - ((progress - 0.55) / 0.2) * 40 : 0;
+        txt2.style.opacity = t2opacity;
+        txt2.style.transform = `translateY(calc(-50% + ${t2y}px))`;
       }
     }
 
-    // Start panel 1 active
-    panel1.classList.add('active');
-
-    window.addEventListener('scroll', updateScrollVideo, { passive: true });
-    updateScrollVideo();
+    // Init
+    if (txt2) txt2.style.opacity = '0';
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update, { passive: true });
+    update();
   }
 
   /* ======================== INIT ======================== */

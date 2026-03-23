@@ -793,41 +793,35 @@ button {
 }
 
 /* ======================== SCROLL VIDEO SHOWCASE ======================== */
-.sv{position:relative;height:300vh;background:var(--bg)}
-.sv-sticky{position:sticky;top:0;height:100vh;overflow:hidden}
+.sv{position:relative;height:400vh;background:var(--bg)}
+.sv-sticky{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;align-items:center}
 
-/* Panels */
-.sv-panel{position:absolute;inset:0;display:flex;align-items:center;padding:0 60px;gap:60px;opacity:0;transition:opacity .6s ease;pointer-events:none}
-.sv-panel.active{opacity:1;pointer-events:auto}
+/* Single video — positioned absolutely, moves via JS transform */
+.sv-vid{position:absolute;width:min(420px,40vw);aspect-ratio:1/1;object-fit:cover;border-radius:24px;z-index:2;will-change:transform;box-shadow:0 24px 80px rgba(0,0,0,.4),0 0 100px rgba(129,97,238,.06);pointer-events:none}
 
-/* Text */
-.sv-text{flex:1;max-width:480px}
-.sv-text--left{text-align:left}
-.sv-text--right{text-align:right;margin-left:auto}
+/* Text blocks */
+.sv-txt{position:absolute;top:50%;max-width:440px;z-index:1;will-change:transform,opacity}
+.sv-txt-1{left:60px;transform:translateY(-50%)}
+.sv-txt-2{right:60px;text-align:right;transform:translateY(-50%)}
 .sv-tag{font-size:12px;font-weight:700;letter-spacing:.14em;color:var(--ac2);margin-bottom:16px;text-transform:uppercase}
-.sv-heading{font-size:clamp(32px,4vw,52px);font-weight:800;line-height:1.05;letter-spacing:-.02em;margin-bottom:20px}
-.sv-desc{font-size:15px;color:var(--t1);line-height:1.75}
-
-/* Video */
-.sv-media{flex:1;display:flex;align-items:center;justify-content:center}
-.sv-media--right{justify-content:flex-end}
-.sv-media--left{justify-content:flex-start}
-.sv-video{width:100%;max-width:480px;height:auto;border-radius:20px;object-fit:cover;aspect-ratio:1/1;box-shadow:0 20px 60px rgba(0,0,0,.3),0 0 80px rgba(129,97,238,.08)}
-
-/* Panel 1 layout: text left, video right */
-.sv-panel--1{flex-direction:row}
-/* Panel 2 layout: video left, text right */
-.sv-panel--2{flex-direction:row}
-
-/* Video transition between panels */
-.sv-video{transition:transform .1s linear,opacity .4s ease}
+.sv-h{font-size:clamp(30px,3.8vw,50px);font-weight:800;line-height:1.05;letter-spacing:-.02em;margin-bottom:18px}
+.sv-p{font-size:15px;color:var(--t1);line-height:1.75}
 
 /* Responsive */
+@media(max-width:1024px){
+  .sv-vid{width:min(320px,50vw)}
+  .sv-txt{max-width:360px}
+  .sv-txt-1{left:32px}
+  .sv-txt-2{right:32px}
+}
 @media(max-width:768px){
-  .sv{height:200vh}
-  .sv-panel{flex-direction:column;padding:0 20px;gap:32px;text-align:center}
-  .sv-text--left,.sv-text--right{text-align:center;max-width:100%;margin:0}
-  .sv-video{max-width:280px}
+  .sv{height:250vh}
+  .sv-vid{width:min(240px,60vw)}
+  .sv-txt{max-width:280px}
+  .sv-txt-1{left:20px}
+  .sv-txt-2{right:20px}
+  .sv-h{font-size:clamp(24px,6vw,32px)}
+  .sv-p{font-size:13.5px}
 }
 
 /* ======================== VAULT ======================== */
