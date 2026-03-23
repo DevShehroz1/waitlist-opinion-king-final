@@ -11,7 +11,7 @@
 
   <!-- NAV -->
   <nav class="nav" id="nav">
-    <a href="#" class="nav-logo"><em>Opinion Kings</em></a>
+    <a href="#" class="nav-logo">Opinion Kings</a>
     <div class="nav-links">
       <a href="#vault">HOW IT WORKS</a>
       <a href="#vault">THE VAULT</a>
@@ -27,7 +27,7 @@
     <div class="hero-inner">
       <div class="hero-left">
         <div class="live-badge"><span class="lb-dot"></span> ARENA NOW LIVE</div>
-        <h1><em>TRADE YOUR<br><span class="accent">CONVICTION.</span><br>PROFIT FROM BEING<br><span class="accent">RIGHT.</span></em></h1>
+        <h1>TRADE YOUR<br><span class="accent">CONVICTION.</span><br>PROFIT FROM BEING<br><span class="accent">RIGHT.</span></h1>
         <p class="hero-sub">The first social prediction market for traders who back their takes with capital — not just opinions. Leave the noise behind and join the sovereign exchange.</p>
         <form class="hero-form" id="heroForm">
           <input type="text" class="field" placeholder="FULL NAME">
@@ -40,23 +40,54 @@
         </div>
       </div>
       <div class="hero-right">
-        <div class="market-card" id="marketCard">
-          <div class="mc-top">
-            <div class="mc-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 14l4-5 3 3 7-8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-            <div class="mc-meta"><span class="mc-label">CRYPTO MARKET</span><strong>Market #4412</strong></div>
-            <span class="mc-vol">$1.2M Volume</span>
+        <div class="slider-wrap">
+          <button class="slider-arr slider-prev" id="sliderPrev"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <div class="slider" id="marketSlider">
+            <!-- Slide 1 -->
+            <div class="market-card slide active-slide">
+              <div class="mc-top"><div class="mc-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 14l4-5 3 3 7-8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="mc-meta"><span class="mc-label">CRYPTO MARKET</span><strong>Market #4412</strong></div><span class="mc-vol">$1.4M Volume</span></div>
+              <h3 class="mc-q">Will Bitcoin set a new ATH before July 31st?</h3>
+              <div class="mc-odds"><span class="mc-yes">YES (63%)</span><span class="mc-no">NO (37%)</span></div>
+              <div class="mc-bar"><div class="mc-fill" style="width:63%"></div></div>
+              <div class="mc-actions"><button class="mc-btn">STAKE YES</button><button class="mc-btn mc-btn-no">STAKE NO</button></div>
+            </div>
+            <!-- Slide 2 -->
+            <div class="market-card slide">
+              <div class="mc-top"><div class="mc-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 14l4-5 3 3 7-8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="mc-meta"><span class="mc-label">CRYPTO MARKET</span><strong>Market #4528</strong></div><span class="mc-vol">$890K Volume</span></div>
+              <h3 class="mc-q">Will ETH trade above $5,000 before July 31st?</h3>
+              <div class="mc-odds"><span class="mc-yes">YES (48%)</span><span class="mc-no">NO (52%)</span></div>
+              <div class="mc-bar"><div class="mc-fill" style="width:48%"></div></div>
+              <div class="mc-actions"><button class="mc-btn">STAKE YES</button><button class="mc-btn mc-btn-no">STAKE NO</button></div>
+            </div>
+            <!-- Slide 3 -->
+            <div class="market-card slide">
+              <div class="mc-top"><div class="mc-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 14l4-5 3 3 7-8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="mc-meta"><span class="mc-label">CRYPTO MARKET</span><strong>Market #4601</strong></div><span class="mc-vol">$620K Volume</span></div>
+              <h3 class="mc-q">Will Solana reach $300 before July 31st?</h3>
+              <div class="mc-odds"><span class="mc-yes">YES (54%)</span><span class="mc-no">NO (46%)</span></div>
+              <div class="mc-bar"><div class="mc-fill" style="width:54%"></div></div>
+              <div class="mc-actions"><button class="mc-btn">STAKE YES</button><button class="mc-btn mc-btn-no">STAKE NO</button></div>
+            </div>
+            <!-- Slide 4 -->
+            <div class="market-card slide">
+              <div class="mc-top"><div class="mc-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></div><div class="mc-meta"><span class="mc-label">COMMODITIES</span><strong>Market #4720</strong></div><span class="mc-vol">$310K Volume</span></div>
+              <h3 class="mc-q">Will Gold hit $3,500/oz before July 31st?</h3>
+              <div class="mc-odds"><span class="mc-yes">YES (41%)</span><span class="mc-no">NO (59%)</span></div>
+              <div class="mc-bar"><div class="mc-fill" style="width:41%"></div></div>
+              <div class="mc-actions"><button class="mc-btn">STAKE YES</button><button class="mc-btn mc-btn-no">STAKE NO</button></div>
+            </div>
+            <!-- Slide 5 -->
+            <div class="market-card slide">
+              <div class="mc-top"><div class="mc-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 16l3-4 3 2 6-8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="mc-meta"><span class="mc-label">POLITICS</span><strong>Market #4833</strong></div><span class="mc-vol">$1.1M Volume</span></div>
+              <h3 class="mc-q">Third-party candidate polls above 15% by Dec?</h3>
+              <div class="mc-odds"><span class="mc-yes">YES (22%)</span><span class="mc-no">NO (78%)</span></div>
+              <div class="mc-bar"><div class="mc-fill" style="width:22%"></div></div>
+              <div class="mc-actions"><button class="mc-btn">STAKE YES</button><button class="mc-btn mc-btn-no">STAKE NO</button></div>
+            </div>
           </div>
-          <h3 class="mc-q">Will Bitcoin hit $100k by July 31st?</h3>
-          <div class="mc-odds">
-            <span class="mc-yes">YES (72%)</span>
-            <span class="mc-no">NO (28%)</span>
-          </div>
-          <div class="mc-bar"><div class="mc-fill" style="width:72%"></div></div>
-          <div class="mc-actions">
-            <button class="mc-btn">STAKE YES</button>
-            <button class="mc-btn mc-btn-no">STAKE NO</button>
-          </div>
-          <div class="mc-dots"><span class="dot-active"></span><span></span><span></span><span></span><span></span></div>
+          <button class="slider-arr slider-next" id="sliderNext"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        </div>
+        <div class="slider-dots" id="sliderDots">
+          <span class="sd active-dot"></span><span class="sd"></span><span class="sd"></span><span class="sd"></span><span class="sd"></span>
         </div>
       </div>
     </div>
@@ -66,7 +97,7 @@
   <section class="vault" id="vault">
     <div class="wrap">
       <p class="sec-tag">THE ECONOMY</p>
-      <h2 class="sec-heading"><em>The Vault is Open.</em></h2>
+      <h2 class="sec-heading">The Vault is Open.</h2>
       <div class="vault-stat"><span>$24,850 Total Credits Claimed</span></div>
       <div class="vault-grid">
         <div class="v-card">
@@ -118,7 +149,7 @@
     </div>
     <div class="wrap board-content">
       <div class="board-top">
-        <h2 class="board-heading"><em>JOIN 15,243 TRADERS<br>READY TO <span class="accent">RULE.</span></em></h2>
+        <h2 class="board-heading">JOIN 15,243 TRADERS<br>READY TO <span class="accent">RULE.</span></h2>
         <div class="board-live">
           <span class="bl-label">LIVE ACTIVITY</span>
           <div class="bl-badge">👥 342 New Users Today</div>
@@ -167,7 +198,7 @@
   <!-- FAQ -->
   <section class="faq-sec" id="faq">
     <div class="wrap">
-      <h2 class="faq-heading"><em>STRATEGIC INTELLIGENCE (FAQ)</em></h2>
+      <h2 class="faq-heading">STRATEGIC INTELLIGENCE (FAQ)</h2>
       <div class="faq-list">
         <details class="faq-item">
           <summary>HOW IS THIS DIFFERENT FROM BETTING?</summary>
@@ -201,7 +232,7 @@
   <footer class="foot">
     <div class="foot-line"></div>
     <div class="wrap foot-inner">
-      <a href="#" class="foot-logo"><em>Opinion Kings</em></a>
+      <a href="#" class="foot-logo">Opinion Kings</a>
       <p>&copy; 2026 OPINION KINGS. CLAIM YOUR THRONE.</p>
       <div class="foot-links">
         <a href="#">PRIVACY</a>

@@ -30,6 +30,31 @@ document.querySelectorAll('.sec-tag,.sec-heading,.vault-stat,.faq-heading,.board
 const bo=new IntersectionObserver(e=>e.forEach(x=>{if(!x.isIntersecting)return;const w=x.target.style.width;x.target.style.width='0%';setTimeout(()=>x.target.style.width=w,300);bo.unobserve(x.target)}),{threshold:.3});
 document.querySelectorAll('.mc-fill').forEach(el=>bo.observe(el));
 
+// ====== MARKET SLIDER ======
+(function(){
+  const slides=document.querySelectorAll('.slide');
+  const dots=document.querySelectorAll('.sd');
+  const prev=document.getElementById('sliderPrev');
+  const next=document.getElementById('sliderNext');
+  if(!slides.length)return;
+  let cur=0;
+
+  function show(i){
+    slides[cur].classList.remove('active-slide');
+    dots[cur]?.classList.remove('active-dot');
+    cur=(i+slides.length)%slides.length;
+    slides[cur].classList.add('active-slide');
+    dots[cur]?.classList.add('active-dot');
+  }
+
+  prev?.addEventListener('click',()=>show(cur-1));
+  next?.addEventListener('click',()=>show(cur+1));
+  dots.forEach((d,i)=>d.addEventListener('click',()=>show(i)));
+
+  // Auto-advance every 5s
+  setInterval(()=>show(cur+1),5000);
+})();
+
 // ====== FORM ======
 document.getElementById('heroForm')?.addEventListener('submit',function(e){
   e.preventDefault();
