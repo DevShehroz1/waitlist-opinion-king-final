@@ -401,10 +401,97 @@
     });
   }
 
+  /* ======================== SCROLL-LINKED VIDEO ======================== */
+  function initScrollVideo() {
+    const section = document.getElementById('showcase');
+    const video1 = document.getElementById('svVideo');
+    const video2 = document.querySelector('.sv-video-2');
+    const panel1 = document.querySelector('.sv-panel--1');
+    const panel2 = document.querySelector('.sv-panel--2');
+
+    if (!section || !video1 || !panel1 || !panel2) return;
+
+    // Preload videos
+    video1.load();
+    if (video2) video2.load();
+
+    // Wait for video metadata
+    let videoDuration = 0;
+    video1.addEventListener('loadedmetadata', () => {
+      videoDuration = video1.duration;
+    });
+
+    let video2Duration = 0;
+    if (video2) {
+      video2.addEventListener('loadedmetadata', () => {
+        video2Duration = video2.duration;
+      });
+    }
+
+    function updateScrollVideo() {
+      const rect = section.getBoundingClientRect();
+      const sectionHeight = section.offsetHeight;
+      const viewH = window.innerHeight;
+
+      // Progress: 0 when section top hits viewport bottom, 1 when section bottom leaves viewport top
+      const scrolled = -rect.top;
+      const totalScroll = sectionHeight - viewH;
+      const progress = Math.max(0, Math.min(1, scrolled / totalScroll));
+
+      // Panel 1: visible 0% - 45%, Panel 2: visible 55% - 100%
+      // Crossfade zone: 45% - 55%
+      if (progress < 0.45) {
+        panel1.classList.add('active');
+        panel2.classList.remove('active');
+      } else if (progress > 0.55) {
+        panel1.classList.remove('active');
+        panel2.classList.add('active');
+      } else {
+        // Crossfade zone
+        const fade = (progress - 0.45) / 0.1;
+        panel1.style.opacity = 1 - fade;
+        panel2.style.opacity = fade;
+        panel1.classList.add('active');
+        panel2.classList.add('active');
+      }
+
+      // Scrub video 1 based on first half of scroll (0-50%)
+      if (videoDuration > 0) {
+        const vid1Progress = Math.min(1, progress / 0.5);
+        const targetTime1 = vid1Progress * videoDuration;
+        if (Math.abs(video1.currentTime - targetTime1) > 0.05) {
+          video1.currentTime = targetTime1;
+        }
+      }
+
+      // Scrub video 2 based on second half of scroll (50%-100%)
+      if (video2 && video2Duration > 0) {
+        const vid2Progress = Math.max(0, Math.min(1, (progress - 0.5) / 0.5));
+        const targetTime2 = vid2Progress * video2Duration;
+        if (Math.abs(video2.currentTime - targetTime2) > 0.05) {
+          video2.currentTime = targetTime2;
+        }
+      }
+
+      // Reset opacity styles when fully in one panel
+      if (progress < 0.44 || progress > 0.56) {
+        panel1.style.opacity = '';
+        panel2.style.opacity = '';
+      }
+    }
+
+    // Start panel 1 active
+    panel1.classList.add('active');
+
+    window.addEventListener('scroll', updateScrollVideo, { passive: true });
+    updateScrollVideo();
+  }
+
   /* ======================== INIT ======================== */
   function init() {
     initWordReveal();
     initParallax();
+    initScrollVideo();
   }
 
   // Wait for fonts + DOM
